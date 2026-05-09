@@ -43,11 +43,11 @@
 
 <!-- HEADER / NAVBAR -->
 <header class="border-b border-sky-200 bg-white shadow-lg">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 pt-4">
         <!-- Logo -->
         <div class="flex items-center gap-2">
             <a href="{{route('home')}}">
-                <img src="{{asset('images/bilgi-65x65.png')}}" alt="Logo" class="w-auto rounded-xl"/>
+                <img src="{{asset('images/bilgi-white-65-109.png')}}" alt="Logo" class="w-auto"/>
             </a>
         </div>
 
