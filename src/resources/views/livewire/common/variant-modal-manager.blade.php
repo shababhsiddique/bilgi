@@ -1,0 +1,9 @@
+<div>
+    <x-variant-selector-modal
+        :show="$showVariantModal"
+        :products="$products"
+        :selected-product-id="$selectedProductId"
+        close-action="closeVariantModal"
+        confirm-action="confirmVariant"
+    />
+</div>

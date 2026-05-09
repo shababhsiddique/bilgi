@@ -2,5 +2,6 @@
 
 return [
     App\Providers\AppServiceProvider::class,
-    App\Providers\AdministratorPanelProvider::class,
+    App\Providers\Filament\AdminPanelProvider::class,
+    App\Providers\FortifyServiceProvider::class,
 ];

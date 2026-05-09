@@ -1,0 +1,10 @@
+<div>
+    <x-filter-modal
+        :show="$showFilterModal"
+        :min-price="$minPrice"
+        :max-price="$maxPrice"
+        close-action="closeFilterModal"
+        apply-action="applyFilters"
+        clear-action="clearFilters"
+    />
+</div>

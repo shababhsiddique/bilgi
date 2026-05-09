@@ -1,40 +1,77 @@
 <?php
 
-use App\Models\Image;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Checkout;
+use App\Http\Controllers\CustomerController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function (Request $request) {
-    $tags = collect(explode(',', (string) $request->query('tag', '')))
-        ->map(fn (string $tag): string => trim($tag))
-        ->filter()
-        ->values();
+Route::get('/', function () {
+    return view('pages.home');
+})->name('home');
 
-    $limit = max(1, (int) $request->query('limit', 100));
-    $cursor = (int) $request->query('cursor', 0);
+Route::get('/shop', function () {
+    return view('pages.all-products');
+})->name('shop');
 
-    $images = Image::query()
-        ->with('tags:uniqid,name')
-        ->where('visible', true)
-        ->when($tags->isNotEmpty(), fn ($query) => $query->whereHas(
-            'tags',
-            fn ($tagQuery) => $tagQuery->whereIn('name', $tags->all()),
-        ))
-        ->when($cursor > 0, fn ($query) => $query->where('uniqid', '<', $cursor))
-        ->orderByDesc('uniqid')
-        ->limit($limit + 1)
-        ->get(['uniqid', 'url']);
+Route::get('/cart', function () {
+    return view('pages.checkout');
+})->name('checkout');
 
-    $hasMore = $images->count() > $limit;
-    $page = $images->take($limit)->values();
+Route::post('/order/confirm', [Checkout::class,'submit'])->name('order.confirm.submit');
 
-    return response()->json([
-        'data' => $page
-        ->map(fn (Image $image): array => [
-            'url' => $image->url,
-            'tags' => $image->tags->pluck('name')->implode(','),
-        ])
-        ->values(),
-        'next_cursor' => $hasMore ? $page->last()?->uniqid : null,
-    ], 200, [], JSON_UNESCAPED_SLASHES);
+Route::get('/order/confirm/{id}', function ($id) {
+    return view('pages.order-confirm', ['orderId' => $id]);
+})->name('order.confirm');
+
+Route::get('/order/pay/{id}', [Checkout::class, 'showPayment'])->name('order.pay');
+Route::post('/order/pay/{id}', [Checkout::class, 'pay'])->name('order.pay.submit');
+
+
+Route::get('/product/{slug}', function ($slug) {
+    return view('pages.single-product')->with('slug', $slug . '');
+})->name('product.show');
+
+
+
+
+Route::get('/story', function () {
+    return view('pages.checkout');
+})->name('story');
+
+Route::get('/contact', function () {
+    return view('pages.checkout');
+})->name('contact');
+
+
+
+// LOGIN: only for guests (not logged in)
+Route::middleware('guest')->group(function () {
+    Route::get('/login-pass', function () {
+        return view('pages.auth.login');
+    })->name('login.password');
+
+    Route::get('/login', function () {
+        return view('pages.auth.alt-login');
+    })->name('login');
+    Route::post('/login-otp/submit', [CustomerController::class, 'loginWithOtp'])
+        ->name('login.otp.submit');
+
+
+    Route::get('/register', function () {
+        return view('pages.auth.register');
+    })->name('register');
+
+
 });
+
+
+// LOGIN: only for guests (not logged in)
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [CustomerController::class, 'showAccount'])->name('account');
+    Route::get('/order/view/{order_number}', [CustomerController::class, 'viewOrder'])->name('order.view');
+    Route::post('/order/reorder/{order_number}', [CustomerController::class, 'reorder'])->name('order.reorder');
+});
+
+Route::get('/account/verify', [CustomerController::class, 'showVerificationForm'])->name('account.otp.show');
+Route::post('/account/verify', [CustomerController::class, 'verifyOTP'])->name('account.otp.verify');
+Route::post('/account/resend-otp', [CustomerController::class, 'resendOTP'])->name('account.otp.resend');

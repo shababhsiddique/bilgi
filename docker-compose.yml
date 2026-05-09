@@ -3,7 +3,7 @@ services:
     build:
       context: ./src
       dockerfile: ../Dockerfile
-    container_name: pic_bucket
+    container_name: bilgi
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
@@ -18,7 +18,7 @@ services:
     build:
       context: ./src
       dockerfile: ../Dockerfile
-    container_name: pic_bucket_queue
+    container_name: bilge_queue
     restart: unless-stopped
     working_dir: /var/www/html
     command: php artisan queue:work --verbose --tries=3 --timeout=90
@@ -34,10 +34,10 @@ services:
 
   web:
     image: nginx:stable
-    container_name: pic_bucket_nginx
+    container_name: bilgi_nginx
     restart: unless-stopped
     ports:
-      - "8007:80" # local port change
+      - "8071:80" # local port change
     volumes:
       - ./src:/var/www/html
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
