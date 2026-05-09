@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Pre-commit hook to format code with Pint and run PHPUnit tests before committing
+# Aborts commit if any test fails
+
+# Check if Docker containers are running
+if ! docker compose ps --status running 2>/dev/null | grep -q "app"; then
+    echo "⚠️  Docker containers are not running."
+    echo "Start them with: docker compose up -d"
+    exit 1
+fi
+
+echo "🎨 Running Pint to format and standardize code..."
+echo ""
+
+docker compose exec -T app ./vendor/bin/pint
+
+# Stage any files modified by Pint
+git add -u
+
+echo ""
+echo "🧪 Running PHPUnit tests before commit..."
+echo ""
+
+docker compose exec -T app php artisan test
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ Tests failed! Commit aborted."
+    echo "Fix the failing tests before committing."
+    exit 1
+fi
+
+echo ""
+echo "✅ Code formatted and all tests passed! Proceeding with commit."
+exit 0
