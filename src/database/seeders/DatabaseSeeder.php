@@ -26,12 +26,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1 user
-        $user = Admin::factory()->create([
-            'name' => 'Administrator',
-            'email' => 'shabab.h.siddique@gmail.com',
-            'password' => bcrypt('1234'),
-        ]);
+
 
         // 2 categories
         $categories = Category::factory(4)->create();
@@ -195,5 +190,8 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        $this->call(MaterialSeeder::class);
+        $this->call(RecipeeSeeder::class);
     }
 }

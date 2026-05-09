@@ -47,7 +47,7 @@
         <!-- Logo -->
         <div class="flex items-center gap-2">
             <a href="{{route('home')}}">
-                <img src="{{asset('images/steam-toys-bd-64x151.png')}}" alt="Logo" class="w-auto"/>
+                <img src="{{asset('images/bilgi-65x65.png')}}" alt="Logo" class="w-auto rounded-xl"/>
             </a>
         </div>
 

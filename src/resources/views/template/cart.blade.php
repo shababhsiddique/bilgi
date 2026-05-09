@@ -13,7 +13,7 @@
 <!-- TOP BAR -->
 <div class="w-full bg-sky-50 text-sm text-slate-600">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-2">
-        <p>Use code <span class="font-semibold text-rose-500">STEMTOYS4BD2026</span> and get 20% off!</p>
+        <p>Use code <span class="font-semibold text-rose-500">BILGI4BD2026</span> and get 20% off!</p>
         <div class="flex items-center gap-4">
             <a href="#" class="hover:text-slate-900">Login</a>
             <a href="#" class="hover:text-slate-900">Register</a>

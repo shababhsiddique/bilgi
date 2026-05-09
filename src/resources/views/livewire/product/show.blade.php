@@ -52,7 +52,7 @@
                     <div>
                         <h1 class="text-3xl text-slate-900">
                             <span
-                                class="text-sm text-sky-500 font-semibold">{{ $product->brand ?? 'STEAMToysBD' }}</span><br/>
+                                class="text-sm text-sky-500 font-semibold">{{ $product->brand ?? 'bilgi' }}</span><br/>
                             <span class="font-extrabold">{{ $product->name ?? 'Building Blocks Set' }}</span>
                             <!-- Product badges -->
                             @if($product->ribbon_text)

@@ -14,23 +14,23 @@ services:
     networks:
       - app-network
 
-  queue:
-    build:
-      context: ./src
-      dockerfile: ../Dockerfile
-    container_name: bilge_queue
-    restart: unless-stopped
-    working_dir: /var/www/html
-    command: php artisan queue:work --verbose --tries=3 --timeout=90
-    volumes:
-      - ./src:/var/www/html
-      - ./src/php.ini:/usr/local/etc/php/conf.d/zz-custom.ini:ro
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-      - app
-    networks:
-      - app-network
+  #queue:
+  #  build:
+  #    context: ./src
+  #    dockerfile: ../Dockerfile
+  #  container_name: bilge_queue
+  #  restart: unless-stopped
+  #  working_dir: /var/www/html
+  #  command: php artisan queue:work --verbose --tries=3 --timeout=90
+  #  volumes:
+  #    - ./src:/var/www/html
+  #    - ./src/php.ini:/usr/local/etc/php/conf.d/zz-custom.ini:ro
+  #  extra_hosts:
+  #    - "host.docker.internal:host-gateway"
+  #  depends_on:
+  #    - app
+  #  networks:
+  #    - app-network
 
   web:
     image: nginx:stable

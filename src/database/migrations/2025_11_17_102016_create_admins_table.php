@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Admin;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,13 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // 1 user
+        $user = Admin::factory()->create([
+            'name' => 'Administrator',
+            'email' => 'shabab.h.siddique@gmail.com',
+            'password' => bcrypt('1234'),
+        ]);
     }
 
     /**
