@@ -10,7 +10,7 @@
         "ext-intl": "*",
         "ext-zip": "*",
         "ext-gd": "*",
-	"filament/filament": "^4.0",
+	    "filament/filament": "^4.0",
         "icetalker/filament-table-repeater": "^2.0",
         "laravel/fortify": "^1.31",
         "laravel/framework": "^12.0",
