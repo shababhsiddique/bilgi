@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Log;
+
 class Sms
 {
     public static function send($message){
