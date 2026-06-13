@@ -1,0 +1,26 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-anVIinwU.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CAiCLEjY.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/common.js": {
+    "file": "assets/common-rwBvSal8.js",
+    "name": "common",
+    "src": "resources/js/common.js",
+    "isEntry": true,
+    "css": [
+      "assets/common-KOmfmGu7.css"
+    ]
+  }
+}
