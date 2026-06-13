@@ -32,7 +32,7 @@
     {{-- Floating cart: appears once the header cart scrolls out of view (and the cart has items) --}}
     <a href="{{ route('checkout') }}"
        x-cloak
-       x-show="scrolled && {{ $totalQuantity }} > 0 && (window.innerWidth >= 768 || !document.getElementById('pdp-action-bar'))"
+       x-show="scrolled && $wire.totalQuantity > 0 && (window.innerWidth >= 768 || !document.getElementById('pdp-action-bar'))"
        x-transition:enter="transition ease-out duration-300"
        x-transition:enter-start="opacity-0 translate-y-6"
        x-transition:enter-end="opacity-100 translate-y-0"
