@@ -1,7 +1,7 @@
-<section class="bg-white py-12">
+<section class="bg-white py-8 sm:py-12">
     <div class="mx-auto max-w-6xl px-4">
         <div class="mb-6 text-center">
-            <h2 class="mt-2 text-2xl font-bold">Top Products</h2>
+            <h2 class="mt-2 text-xl font-bold sm:text-2xl">Top Products</h2>
 
             <!-- Filter pills
             <div class="mt-4 inline-flex gap-2 rounded-full bg-slate-100 p-1 text-sm">
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Product cards (currently static; later replace with loop over $products) -->
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             @forelse($products as $product)
                 <livewire:common.product-card
                     :product="$product"

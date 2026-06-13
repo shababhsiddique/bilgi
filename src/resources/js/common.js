@@ -30,3 +30,12 @@ window.notyf = new Notyf({
         }
     ]
 });
+
+// Toast confirmation whenever an item is added to the cart.
+// Dispatched server-side via $this->dispatch('cart-item-added', name: '...').
+document.addEventListener('livewire:init', () => {
+    Livewire.on('cart-item-added', (event) => {
+        const name = event?.name || (Array.isArray(event) ? event[0]?.name : null);
+        window.notyf.success(name ? `${name} added to cart` : 'Added to cart');
+    });
+});

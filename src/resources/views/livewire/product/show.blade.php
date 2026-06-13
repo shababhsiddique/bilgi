@@ -1,9 +1,9 @@
-<div>
+<div class="pb-20 md:pb-0">
     <!-- PRODUCT DETAIL SECTION -->
     <section class="bg-sky-50/70">
         <div class="mx-auto max-w-6xl px-4 py-5">
 
-            <div class="grid gap-8 mt-2 md:grid-cols-2">
+            <div class="grid gap-6 mt-2 md:gap-8 md:grid-cols-2">
                 <!-- Product Images Gallery -->
                 <div class="space-y-4">
                     <!-- Main product image -->
@@ -47,10 +47,10 @@
                 </div>
 
                 <!-- Product Info -->
-                <div class="space-y-6">
+                <div class="space-y-5 sm:space-y-6">
                     <!-- Product title -->
                     <div>
-                        <h1 class="text-3xl text-slate-900">
+                        <h1 class="text-2xl text-slate-900 sm:text-3xl">
                             <span
                                 class="text-sm text-sky-500 font-semibold">{{ $product->brand ?? 'bilgi' }}</span><br/>
                             <span class="font-extrabold">{{ $product->name ?? 'Building Blocks Set' }}</span>
@@ -68,10 +68,10 @@
                     <div class="space-y-2">
                         <div class="flex items-center gap-3">
                             <span
-                                class="text-3xl font-bold text-rose-500">${{ number_format($selectedVariant->sales_price ?? 49.99, 2) }}</span>
+                                class="text-3xl font-bold text-rose-500">৳{{ number_format($selectedVariant->sales_price ?? 0, 0) }}</span>
                             @if($product->compare_price && $product->compare_price > $selectedVariant->sales_price)
                                 <span
-                                    class="text-lg text-slate-400 line-through">${{ number_format($product->compare_price, 2) }}</span>
+                                    class="text-lg text-slate-400 line-through">৳{{ number_format($product->compare_price, 0) }}</span>
                                 <span class="rounded-full bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-600">
                                     {{ round((($product->compare_price - $selectedVariant->sales_price) / $product->compare_price) * 100) }}% OFF
                                 </span>
@@ -175,8 +175,8 @@
                         </div>
                     </div>
 
-                    <!-- Action buttons -->
-                    <div class="flex gap-4">
+                    <!-- Action buttons (inline on desktop; mobile uses sticky bar below) -->
+                    <div class="hidden gap-4 md:flex">
                         <button
                             wire:click="buyNow"
                             class="flex-1 rounded-full bg-rose-500 px-8 py-3 text-lg font-semibold text-white shadow-md hover:bg-rose-600 transition-colors">
@@ -216,24 +216,24 @@
     </section>
 
     <!-- PRODUCT DETAILS TABS -->
-    <section class="bg-white py-12">
+    <section class="bg-white py-8 sm:py-12">
         <div class="mx-auto max-w-6xl px-4">
             <!-- Tab navigation -->
-            <div class="mb-8 border-b border-slate-200">
-                <nav class="flex gap-8">
+            <div class="mb-6 border-b border-slate-200 sm:mb-8">
+                <nav class="flex gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-8">
                     <button
                         wire:click="switchTab('description')"
-                        class="pb-4 font-semibold {{ $activeTab === 'description' ? 'border-b-2 border-rose-500 text-rose-500' : 'text-slate-500 hover:text-slate-700' }}">
+                        class="shrink-0 whitespace-nowrap pb-4 font-semibold{{ $activeTab === 'description' ? 'border-b-2 border-rose-500 text-rose-500' : 'text-slate-500 hover:text-slate-700' }}">
                         Description
                     </button>
                     <button
                         wire:click="switchTab('reviews')"
-                        class="pb-4 font-semibold {{ $activeTab === 'reviews' ? 'border-b-2 border-rose-500 text-rose-500' : 'text-slate-500 hover:text-slate-700' }}">
+                        class="shrink-0 whitespace-nowrap pb-4 font-semibold{{ $activeTab === 'reviews' ? 'border-b-2 border-rose-500 text-rose-500' : 'text-slate-500 hover:text-slate-700' }}">
                         Reviews (24)
                     </button>
                     <button
                         wire:click="switchTab('shipping')"
-                        class="pb-4 font-semibold {{ $activeTab === 'shipping' ? 'border-b-2 border-rose-500 text-rose-500' : 'text-slate-500 hover:text-slate-700' }}">
+                        class="shrink-0 whitespace-nowrap pb-4 font-semibold{{ $activeTab === 'shipping' ? 'border-b-2 border-rose-500 text-rose-500' : 'text-slate-500 hover:text-slate-700' }}">
                         Shipping
                     </button>
                 </nav>
@@ -287,4 +287,22 @@
             </div>
         </div>
     </section>
+
+    <!-- STICKY MOBILE ACTION BAR -->
+    <div id="pdp-action-bar" class="fixed inset-x-0 bottom-0 z-30 flex items-center gap-3 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur md:hidden">
+        <div class="shrink-0">
+            <p class="text-[11px] leading-none text-slate-400">Price</p>
+            <p class="text-lg font-bold leading-tight text-rose-500">৳{{ number_format($selectedVariant->sales_price ?? 0, 0) }}</p>
+        </div>
+        <button
+            wire:click="addToCart"
+            class="flex-1 rounded-full bg-amber-500 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-amber-600">
+            Add to Cart
+        </button>
+        <button
+            wire:click="buyNow"
+            class="flex-1 rounded-full bg-rose-500 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-rose-600">
+            Buy Now
+        </button>
+    </div>
 </div>

@@ -1,7 +1,7 @@
 @props(['items' => []])
 
-<div class="bg-sky-50/70 mx-full px-4 pt-5 pb-0">
-    <div class="mx-auto max-w-6xl">
+<div class="bg-sky-50/70 pt-5 pb-0">
+    <div class="mx-auto max-w-6xl px-4">
         <nav class="text-sm" {{ $attributes }}>
             <ol class="flex items-center space-x-2 text-slate-500">
                 @foreach($items as $index => $item)

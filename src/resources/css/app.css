@@ -11,3 +11,8 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Hide Alpine-controlled elements (e.g. floating cart) until Alpine initializes */
+[x-cloak] {
+    display: none !important;
+}

@@ -132,6 +132,7 @@ class Show extends Component
         );
 
         $this->dispatch('cart-updated');
+        $this->dispatch('cart-item-added', name: $this->product?->name);
     }
 
     public function buyNow()

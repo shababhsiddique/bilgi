@@ -16,14 +16,14 @@
                 </div>
             @endif
 
-            <div class="mb-3 text-center">
-                <!-- Filter pills -->
-                <div class="flex flex-wrap items-center justify-center gap-8 text-sm text-slate-500">
+            <div class="mb-3">
+                <!-- Filter pills: horizontal scroll on mobile, centered wrap on desktop -->
+                <div class="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 text-sm text-slate-500 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-4 sm:overflow-visible sm:px-0">
                     <!-- Dynamic category pills -->
                     @foreach($categories as $category)
                         <div
                             wire:click="selectCategory({{ $category->id }})"
-                            class="cursor-pointer rounded-full border px-6 py-2 transition-colors hover:border-slate-300
+                            class="shrink-0 cursor-pointer whitespace-nowrap rounded-full border px-5 py-2 transition-colors hover:border-slate-300 sm:px-6
                             {{ $selectedCategory == $category->id ? 'border-slate-300 bg-slate-50 text-slate-700' : 'bg-white border-slate-200' }}"
                         >
                             {{ $category->name }}
@@ -33,14 +33,14 @@
             </div>
 
             <!-- Sort and Filter Row -->
-            <div class="mb-3 flex items-center justify-between">
+            <div class="mb-3 flex items-center justify-between gap-2">
                 <!-- Left side: Sort By Dropdown -->
-                <div class="flex items-center gap-2">
-                    <label for="sortBy" class="text-sm font-medium text-slate-700">Sort by:</label>
+                <div class="flex min-w-0 items-center gap-2">
+                    <label for="sortBy" class="hidden text-sm font-medium text-slate-700 sm:inline">Sort by:</label>
                     <select
                         id="sortBy"
                         wire:model.live="sortBy"
-                        class="rounded-full border-0 bg-white px-3 py-2 text-sm text-slate-700"
+                        class="min-w-0 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
                     >
                         <option value="price-low-high">Price: Low to High</option>
                         <option value="price-high-low">Price: High to Low</option>
@@ -72,7 +72,7 @@
             <!-- Product cards - First row (4 products on large screens) -->
             <div
                 id="products-grid"
-                class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+                class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 mb-8"
                 wire:loading.class="opacity-50"
             >
                 @foreach($products->take(4) as $product)
@@ -91,7 +91,7 @@
             <!-- Product cards - Rest of the products -->
             @if($products->count() > 4)
                 <div
-                    class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+                    class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 mb-8"
                     wire:loading.class="opacity-50"
                 >
                     @foreach($products->skip(4) as $product)

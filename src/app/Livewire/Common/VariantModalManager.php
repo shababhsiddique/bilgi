@@ -114,6 +114,7 @@ class VariantModalManager extends Component
         );
 
         $this->dispatch('cart-updated');
+        $this->dispatch('cart-item-added', name: $variant->product?->name);
     }
 
     protected function buyNow(int $variantId)

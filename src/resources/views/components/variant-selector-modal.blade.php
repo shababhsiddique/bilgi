@@ -13,11 +13,11 @@
     @endphp
 
     <div
-            class="fixed inset-0 z-40 flex items-center justify-center bg-black/50"
+            class="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center sm:p-4"
             x-data
     >
         <div
-                class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl"
+                class="w-full max-w-lg rounded-t-2xl bg-white p-5 shadow-xl sm:rounded-2xl sm:p-6"
                 @click.away="$wire.{{ $closeAction }}()"
         >
             <div class="flex items-start justify-between">
