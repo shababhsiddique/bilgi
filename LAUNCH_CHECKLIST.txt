@@ -1,0 +1,21 @@
+LAUNCH DAY CHECKLIST — REVERT BEFORE GOING PUBLIC
+==================================================
+
+The site is currently hidden from search engines and (optionally) in
+maintenance mode. Undo ALL of the following when going live, or the
+launched site will stay invisible to Google.
+
+[ ] 1. Disable maintenance mode (run inside the running container):
+       docker compose exec <service> php artisan up
+
+[ ] 2. Re-allow crawlers — src/public/robots.txt
+       Change:
+           Disallow: /
+       Back to (empty = allow all):
+           Disallow:
+
+[ ] 3. Remove the noindex meta tag — src/resources/views/layouts/app.blade.php
+       Delete this line from <head>:
+           <meta name="robots" content="noindex, nofollow">
+
+Added: 2026-06-13
