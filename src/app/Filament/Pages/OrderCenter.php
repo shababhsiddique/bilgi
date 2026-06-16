@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Resources\Orders\OrderResource;
 use App\Models\Customer;
 use App\Models\CustomerAddress;
 use App\Models\Order;
@@ -527,7 +528,8 @@ class OrderCenter extends Page implements HasTable
                     ->label('Order')
                     ->searchable()
                     ->weight('bold')
-                    ->copyable(),
+                    ->url(fn (Order $record) => OrderResource::getUrl('view', ['record' => $record]))
+                    ->color('primary'),
                 TextColumn::make('shippingAddress.name')
                     ->label('Customer')
                     ->placeholder('-')
@@ -560,11 +562,6 @@ class OrderCenter extends Page implements HasTable
                         'failed', 'unpaid' => 'danger',
                         default => 'gray',
                     }),
-                TextColumn::make('consignment_id')
-                    ->label('Consignment')
-                    ->placeholder('-')
-                    ->searchable()
-                    ->copyable(),
                 TextColumn::make('placed_at')
                     ->label('Placed')
                     ->since()
