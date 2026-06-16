@@ -135,6 +135,6 @@ return [
     /**
      * minutes
      */
-    'one_time_password_expiry' => env('AUTH_ONE_TIME_PASSWORD_EXPIRY', 5),
+    'one_time_password_expiry' => env('AUTH_ONE_TIME_PASSWORD_EXPIRY', 2),
 
 ];
