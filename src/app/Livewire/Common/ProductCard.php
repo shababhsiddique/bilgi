@@ -71,11 +71,56 @@ class ProductCard extends Component
         return $min === $max ? null : compact('min', 'max');
     }
 
+    /**
+     * Whether the product can be purchased.
+     * Products that don't track inventory are always available.
+     */
+    private function inStock(): bool
+    {
+        $product = $this->product;
+
+        if (!$product->track_inventory) {
+            return true;
+        }
+
+        if ($product->variants && $product->variants->count() > 0) {
+            return (int) $product->variants->sum('stock') > 0;
+        }
+
+        return (int) ($product->stock ?? 0) > 0;
+    }
+
+    /**
+     * Build the price shown on the card.
+     * `compare` is a placeholder "was" price (current + 10%) shown as a
+     * strikethrough until real compare-at columns exist in the schema.
+     */
+    private function getCardPricing(?array $priceRange): array
+    {
+        if ($this->priceDisplay === 'range' && $priceRange) {
+            $current = (float) $priceRange['min'];
+            $isRange = true;
+        } else {
+            $current = (float) ($this->product->default->sales_price ?? 0);
+            $isRange = false;
+        }
+
+        return [
+            'current' => $current,
+            'compare' => round($current * 1.10),
+            'isRange' => $isRange,
+        ];
+    }
+
 
     public function render()
     {
-        return view('livewire.common.product-card',[
-            'priceRange' => $this->getPriceRange()
+        $priceRange = $this->getPriceRange();
+
+        return view('livewire.common.product-card', [
+            'priceRange' => $priceRange,
+            'pricing'    => $this->getCardPricing($priceRange),
+            'inStock'    => $this->inStock(),
         ]);
     }
 }

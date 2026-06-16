@@ -66,14 +66,19 @@
 
                     <!-- Price -->
                     <div class="space-y-2">
+                        @php
+                            $price = (float) ($selectedVariant->sales_price ?? 0);
+                            // Placeholder "was" price (current + 10%) until a real compare-at column exists.
+                            $comparePrice = round($price * 1.10);
+                        @endphp
                         <div class="flex items-center gap-3">
                             <span
-                                class="text-3xl font-bold text-rose-500">৳{{ number_format($selectedVariant->sales_price ?? 0, 0) }}</span>
-                            @if($product->compare_price && $product->compare_price > $selectedVariant->sales_price)
+                                class="text-3xl font-bold text-rose-500">৳{{ number_format($price, 0) }}</span>
+                            @if($price > 0)
                                 <span
-                                    class="text-lg text-slate-400 line-through">৳{{ number_format($product->compare_price, 0) }}</span>
+                                    class="text-lg text-slate-400 line-through">৳{{ number_format($comparePrice, 0) }}</span>
                                 <span class="rounded-full bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-600">
-                                    {{ round((($product->compare_price - $selectedVariant->sales_price) / $product->compare_price) * 100) }}% OFF
+                                    {{ round((($comparePrice - $price) / $comparePrice) * 100) }}% OFF
                                 </span>
                             @endif
                         </div>
@@ -295,14 +300,14 @@
             <p class="text-lg font-bold leading-tight text-rose-500">৳{{ number_format($selectedVariant->sales_price ?? 0, 0) }}</p>
         </div>
         <button
-            wire:click="addToCart"
-            class="flex-1 rounded-full bg-amber-500 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-amber-600">
-            Add to Cart
-        </button>
-        <button
             wire:click="buyNow"
             class="flex-1 rounded-full bg-rose-500 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-rose-600">
             Buy Now
+        </button>
+        <button
+            wire:click="addToCart"
+            class="flex-1 rounded-full bg-amber-500 px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-amber-600">
+            Add to Cart
         </button>
     </div>
 </div>

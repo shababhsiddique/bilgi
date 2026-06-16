@@ -3,6 +3,7 @@
 use App\Http\Controllers\Checkout;
 use App\Http\Controllers\CustomerController;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +53,36 @@ Route::post('/order/pay/{id}', [Checkout::class, 'pay'])->name('order.pay.submit
 
 
 Route::get('/product/{slug}', function ($slug) {
-    return view('pages.single-product')->with('slug', $slug . '');
+    $product = Product::where('slug', $slug)->firstOrFail();
+
+    $categoryIds = $product->categories()->pluck('categories.id');
+
+    // Up to 4 other visible products that share a category with this one.
+    $related = Product::query()
+        ->where('visible', true)
+        ->where('id', '!=', $product->id)
+        ->whereHas('categories', fn ($q) => $q->whereIn('categories.id', $categoryIds))
+        ->with(['defaultVariant', 'variants'])
+        ->inRandomOrder()
+        ->limit(4)
+        ->get();
+
+    // Fallback: if the product has no category (or no category siblings),
+    // show the latest products instead so the section is never empty.
+    if ($related->isEmpty()) {
+        $related = Product::query()
+            ->where('visible', true)
+            ->where('id', '!=', $product->id)
+            ->with(['defaultVariant', 'variants'])
+            ->latest()
+            ->limit(4)
+            ->get();
+    }
+
+    return view('pages.single-product', [
+        'slug'    => $slug . '',
+        'related' => $related,
+    ]);
 })->name('product.show');
 
 
