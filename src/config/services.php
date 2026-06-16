@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'sms_net_bd' => [
+        'key' => env('SMS_NET_BD_API_KEY'),
+        'base_url' => env('SMS_NET_BD_BASE_URL', 'https://api.sms.net.bd'),
+        //'sender_id' => env('OTP_SMS_SENDER_ID'),
+    ],
+
 ];

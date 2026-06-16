@@ -40,7 +40,7 @@
 
                         <div>
                             <label for="login-username" class="block text-sm font-medium text-gray-700 mb-1">
-                                Phone / Email
+                                Phone
                             </label>
                             <input
                                 id="login-username"

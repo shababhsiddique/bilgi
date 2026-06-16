@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Services\CartService;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,11 +26,12 @@ class CustomerController extends Controller
 
     public function loginWithOtp(Request $request)
     {
-        // Basic validation - ensure phone is entered
+        // Basic validation - ensure a valid Bangladeshi phone number is entered
         $validator = Validator::make($request->all(), [
-            'username' => ['required', 'string'],
+            'username' => ['required', 'string', 'regex:/^(?:\+?88)?01[3-9]\d{8}$/'],
         ], [
             'username.required' => 'Phone number is required.',
+            'username.regex' => 'Please enter a valid phone number (e.g. 017XXXXXXXX).',
         ]);
 
         if ($validator->fails()) {
@@ -262,6 +264,15 @@ class CustomerController extends Controller
 
     private function sendOTPSMS(string $phone, string $otp): void
     {
-        Log::info("OTP {$otp} should be sent to {$phone}");
+        $appName = config('app.name', 'StemToysBD');
+        $expiryMinutes = (int) config('auth.one_time_password_expiry', 5);
+
+        $message = "Your {$appName} verification code is {$otp}. It expires in {$expiryMinutes} minute(s).";
+
+        $sent = app(SmsService::class)->send($phone, $message);
+
+        if (! $sent) {
+            Log::error("Failed to send OTP SMS to {$phone}");
+        }
     }
 }
