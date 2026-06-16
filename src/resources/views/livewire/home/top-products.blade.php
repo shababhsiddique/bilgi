@@ -51,7 +51,7 @@
         </div>
 
         <!-- Product cards (currently static; later replace with loop over $products) -->
-        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             @forelse($products as $product)
                 <livewire:common.product-card
                     :product="$product"

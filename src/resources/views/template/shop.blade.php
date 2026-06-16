@@ -325,11 +325,9 @@
 
     <div class="border-t border-slate-800">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-            <p class="text-[12px]">© 2025 · ToyWay Shop. All Rights Reserved.</p>
+            <p class="text-[12px]">© {{ date('Y') }} · WithBilgi. All Rights Reserved.</p>
             <div class="flex items-center gap-2 text-[11px]">
-                <span class="rounded bg-white/10 px-2 py-1">VISA</span>
-                <span class="rounded bg-white/10 px-2 py-1">MasterCard</span>
-                <span class="rounded bg-white/10 px-2 py-1">PayPal</span>
+                <span class="rounded bg-white/10 px-2 py-1">bKash</span>
             </div>
         </div>
     </div>

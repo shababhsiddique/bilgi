@@ -25,7 +25,7 @@ class TopProducts extends Component
             ->where('visible', true)
             ->orderByDesc('sort_order')
             ->with(['defaultVariant', 'variants'])
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         return view('livewire.home.top-products', [

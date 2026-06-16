@@ -134,10 +134,8 @@ class Summary extends Component
         }
 
         // Simple demo rules – replace with real coupon logic
-        if (strtolower($code) === 'welcome10') {
+        if (strtoupper($code) === 'LEARN&FUN2026') {
             $this->discountAmount = round($this->subtotal * 0.10, 2);
-        } elseif (strtolower($code) === 'save50') {
-            $this->discountAmount = 50;
         } else {
             $this->discountError = 'Invalid discount code.';
         }

@@ -1,7 +1,7 @@
 <!-- TOP BAR -->
 <div class="w-full bg-sky-50 text-sm text-slate-600">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-2">
-        <p>Use code <span class="font-semibold text-red-500">LEARN&FUN2026</span> and get 20% off!</p>
+        <p>Use code <span class="font-semibold text-red-500">LEARN&FUN2026</span> and get 10% off!</p>
         <div class="flex items-center gap-4">
             @guest
                 {{-- Guest: show Login only --}}
@@ -109,16 +109,6 @@
                    class="{{ request()->routeIs('shop') ? 'text-emerald-500' : 'hover:text-emerald-500' }}">
                     Products
                 </a>
-                {{--
-                <a href="{{route('story')}}"
-                   class="{{ request()->routeIs('story') ? 'text-cyan-500' : 'hover:text-cyan-500' }}">
-                    Our Story
-                </a>
-                <a href="{{route('contact')}}"
-                   class="{{ request()->routeIs('contact') ? 'text-amber-400' : 'hover:text-amber-400' }}">
-                    Contact
-                </a>
-                --}}
             </div>
 
             <a href="{{route('account')."?section=orders"}}" class="rounded-full bg-sky-100 px-4 py-2 text-[11px] text-blue-400 md:inline-flex">

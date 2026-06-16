@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Checkout;
 use App\Http\Controllers\CustomerController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -35,12 +36,8 @@ Route::get('/product/{slug}', function ($slug) {
 
 
 Route::get('/story', function () {
-    return view('pages.checkout');
+    return view('pages.story');
 })->name('story');
-
-Route::get('/contact', function () {
-    return view('pages.checkout');
-})->name('contact');
 
 
 
@@ -70,6 +67,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/account', [CustomerController::class, 'showAccount'])->name('account');
     Route::get('/order/view/{order_number}', [CustomerController::class, 'viewOrder'])->name('order.view');
     Route::post('/order/reorder/{order_number}', [CustomerController::class, 'reorder'])->name('order.reorder');
+});
+
+// Admin (storekeeper) — printable order invoice
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/orekeeper/order-center/invoice/{order}', function (Order $order) {
+        $order->load(['items', 'shippingAddress', 'billingAddress', 'paymentMethod']);
+
+        return view('invoices.order', ['order' => $order]);
+    })->name('admin.orders.invoice');
 });
 
 Route::get('/account/verify', [CustomerController::class, 'showVerificationForm'])->name('account.otp.show');

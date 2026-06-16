@@ -287,8 +287,7 @@ class Checkout extends Controller
 
         // Simple discount logic - you can make this more sophisticated
         return match (strtoupper($discountCode)) {
-            'WELCOME10' => (int) ($subtotal * 0.10), // 10% discount
-            'SAVE50' => min(50, $subtotal), // 50 BDT off, max discount
+            'LEARN&FUN2026' => (int) ($subtotal * 0.10), // 10% discount
             default => 0,
         };
     }
