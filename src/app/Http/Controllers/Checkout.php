@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Sms;
+use App\Services\SmsService;
 use App\Models\Customer;
 use App\Models\CustomerAddress;
 use App\Models\Order;
@@ -294,8 +294,16 @@ class Checkout extends Controller
 
     private function sendOTPSMS(string $phone, string $otp): void
     {
-        // Implement your SMS service here (e.g., Twilio, SMS API, etc.)
-        Sms::send("OTP {$otp} should be sent to {$phone}");
+        $appName = config('app.name', 'StemToysBD');
+        $expiryMinutes = (int) config('auth.one_time_password_expiry', 5);
+
+        $message = "Your {$appName} verification code is {$otp}. It expires in {$expiryMinutes} minute(s).";
+
+        $sent = app(SmsService::class)->send($phone, $message);
+
+        if (! $sent) {
+            Log::error("Failed to send OTP SMS to {$phone}");
+        }
     }
 
     /**
