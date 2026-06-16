@@ -37,6 +37,14 @@ class SmsService
             return false;
         }
 
+        $to = $this->normalizeRecipients($to);
+
+        if ($to === '') {
+            Log::error('SMS not sent: no valid recipient number after normalization.');
+
+            return false;
+        }
+
         $payload = [
             'api_key' => $this->apiKey,
             'to' => $to,
@@ -77,6 +85,58 @@ class SmsService
         ]);
 
         return false;
+    }
+
+    /**
+     * Normalize one or more (comma-separated) recipient numbers to the
+     * format sms.net.bd expects: digits only, with the Bangladesh country
+     * code (880). Drops anything that isn't a usable number.
+     */
+    protected function normalizeRecipients(string $to): string
+    {
+        return collect(explode(',', $to))
+            ->map(fn (string $number): string => $this->normalizeNumber($number))
+            ->filter()
+            ->unique()
+            ->implode(',');
+    }
+
+    /**
+     * Normalize a single number to 880XXXXXXXXXX form.
+     *
+     * Handles inputs like "+8801712345678", "01712345678", "01712-345678",
+     * "008801712345678" and "8801712345678".
+     */
+    protected function normalizeNumber(string $number): string
+    {
+        // Strip everything that isn't a digit (drops +, spaces, dashes, parens).
+        $digits = preg_replace('/\D+/', '', $number) ?? '';
+
+        if ($digits === '') {
+            return '';
+        }
+
+        // International "00" prefix -> drop it.
+        if (str_starts_with($digits, '00')) {
+            $digits = substr($digits, 2);
+        }
+
+        // Already country-coded.
+        if (str_starts_with($digits, '880')) {
+            return $digits;
+        }
+
+        // Local form 01XXXXXXXXX -> 8801XXXXXXXXX.
+        if (str_starts_with($digits, '0')) {
+            return '88' . $digits;
+        }
+
+        // Bare 1XXXXXXXXX (no leading 0) -> 8801XXXXXXXXX.
+        if (str_starts_with($digits, '1') && strlen($digits) === 10) {
+            return '880' . $digits;
+        }
+
+        return $digits;
     }
 
     /**
