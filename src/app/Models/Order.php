@@ -28,6 +28,8 @@ class Order extends Model
         'billing_address_id',
         'notes',
         'seller_note',
+        'consignment_id',
+        'tracking_token',
         'placed_at',
     ];
 

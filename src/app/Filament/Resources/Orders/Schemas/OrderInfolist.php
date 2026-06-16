@@ -43,6 +43,12 @@ class OrderInfolist
                         TextEntry::make('seller_note')
                             ->placeholder('-')
                             ->columnSpanFull(),
+                        TextEntry::make('consignment_id')
+                            ->label('Steadfast consignment ID')
+                            ->placeholder('-'),
+                        TextEntry::make('tracking_token')
+                            ->label('Steadfast tracking code')
+                            ->placeholder('-'),
                         TextEntry::make('placed_at')
                             ->dateTime()
                             ->placeholder('-'),

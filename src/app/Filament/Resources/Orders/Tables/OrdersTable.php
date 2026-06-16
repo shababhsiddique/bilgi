@@ -38,6 +38,16 @@ class OrdersTable
                     ->searchable(),
                 TextColumn::make('payment_status')
                     ->badge(),
+                TextColumn::make('consignment_id')
+                    ->label('Consignment')
+                    ->placeholder('-')
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('tracking_token')
+                    ->label('Tracking code')
+                    ->placeholder('-')
+                    ->searchable()
+                    ->toggleable(),
                 TextColumn::make('placed_at')
                     ->dateTime()
                     ->sortable(),

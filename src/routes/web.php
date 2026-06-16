@@ -3,6 +3,7 @@
 use App\Http\Controllers\Checkout;
 use App\Http\Controllers\CustomerController;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -21,8 +22,30 @@ Route::get('/cart', function () {
 Route::post('/order/confirm', [Checkout::class,'submit'])->name('order.confirm.submit');
 
 Route::get('/order/confirm/{id}', function ($id) {
-    return view('pages.order-confirm', ['orderId' => $id]);
+    $order = Order::with(['items', 'shippingAddress', 'billingAddress', 'paymentMethod'])
+        ->findOrFail($id);
+
+    // If a customer is logged in, the order must belong to them.
+    $customer = Auth::guard('customers')->user();
+    if ($customer && $order->customer_id !== $customer->id) {
+        abort(403, 'You do not have permission to view this order.');
+    }
+
+    return view('pages.order-confirm', ['order' => $order]);
 })->name('order.confirm');
+
+// Customer-facing printable invoice (auto-opens the print dialog on load).
+Route::get('/order/invoice/{id}', function ($id) {
+    $order = Order::with(['items', 'shippingAddress', 'billingAddress', 'paymentMethod'])
+        ->findOrFail($id);
+
+    $customer = Auth::guard('customers')->user();
+    if ($customer && $order->customer_id !== $customer->id) {
+        abort(403, 'You do not have permission to view this order.');
+    }
+
+    return view('invoices.order', ['order' => $order]);
+})->name('order.invoice');
 
 Route::get('/order/pay/{id}', [Checkout::class, 'showPayment'])->name('order.pay');
 Route::post('/order/pay/{id}', [Checkout::class, 'pay'])->name('order.pay.submit');

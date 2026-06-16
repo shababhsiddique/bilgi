@@ -361,6 +361,16 @@ class OrderCenter extends Page implements HasTable
                         ->live(onBlur: true)
                         ->helperText('Auto-filled from the delivery division; override if needed.'),
                 ]),
+                Grid::make(2)->schema([
+                    TextInput::make('consignment_id')
+                        ->label('Steadfast consignment ID')
+                        ->maxLength(255)
+                        ->helperText('Optional — add now if already handed over to Steadfast.'),
+                    TextInput::make('tracking_token')
+                        ->label('Steadfast tracking code')
+                        ->maxLength(255)
+                        ->helperText('Public tracking code for the customer tracking link.'),
+                ]),
                 Textarea::make('seller_note')
                     ->label('Seller note (internal)')
                     ->rows(2),
@@ -418,6 +428,8 @@ class OrderCenter extends Page implements HasTable
                 'payment_status'      => $data['payment_status'] ?? 'unpaid',
                 'notes'               => $data['notes'] ?? null,
                 'seller_note'         => $data['seller_note'] ?? null,
+                'consignment_id'      => $data['consignment_id'] ?? null,
+                'tracking_token'      => $data['tracking_token'] ?? null,
                 'placed_at'           => now(),
             ]);
 
@@ -548,6 +560,11 @@ class OrderCenter extends Page implements HasTable
                         'failed', 'unpaid' => 'danger',
                         default => 'gray',
                     }),
+                TextColumn::make('consignment_id')
+                    ->label('Consignment')
+                    ->placeholder('-')
+                    ->searchable()
+                    ->copyable(),
                 TextColumn::make('placed_at')
                     ->label('Placed')
                     ->since()
@@ -598,6 +615,34 @@ class OrderCenter extends Page implements HasTable
                         Notification::make()
                             ->title('Payment status updated')
                             ->body("Order {$record->order_number} payment is now {$data['payment_status']}.")
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('consignment')
+                    ->label('Delivery')
+                    ->icon('heroicon-o-truck')
+                    ->color('info')
+                    ->schema([
+                        TextInput::make('consignment_id')
+                            ->label('Steadfast consignment ID')
+                            ->helperText('Add this once the order is handed over to Steadfast for delivery.')
+                            ->maxLength(255)
+                            ->default(fn (Order $record) => $record->consignment_id),
+                        TextInput::make('tracking_token')
+                            ->label('Steadfast tracking code')
+                            ->helperText('Public tracking code for the customer tracking link.')
+                            ->maxLength(255)
+                            ->default(fn (Order $record) => $record->tracking_token),
+                    ])
+                    ->action(function (Order $record, array $data) {
+                        $record->update([
+                            'consignment_id' => $data['consignment_id'] ?: null,
+                            'tracking_token' => $data['tracking_token'] ?: null,
+                        ]);
+
+                        Notification::make()
+                            ->title('Delivery details saved')
+                            ->body("Order {$record->order_number} tracking updated.")
                             ->success()
                             ->send();
                     }),

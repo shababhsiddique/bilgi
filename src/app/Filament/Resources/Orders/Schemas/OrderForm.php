@@ -74,6 +74,14 @@ class OrderForm
                     ->columnSpanFull(),
                 Textarea::make('seller_note')
                     ->columnSpanFull(),
+                TextInput::make('consignment_id')
+                    ->label('Steadfast consignment ID')
+                    ->helperText('Steadfast consignment ID, added once the order is handed over for delivery.')
+                    ->maxLength(255),
+                TextInput::make('tracking_token')
+                    ->label('Steadfast tracking code')
+                    ->helperText('Public tracking code from Steadfast, used for the customer tracking link.')
+                    ->maxLength(255),
                 DateTimePicker::make('placed_at'),
             ]);
     }
