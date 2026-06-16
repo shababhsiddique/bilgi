@@ -30,7 +30,7 @@
             </p>
             <a
                 href="{{ route('product.show', $content->product->slug) }}"
-                class="mt-2 inline-flex items-center rounded-full bg-rose-500 px-6 py-2.5 text-lg font-semibold text-white shadow-md hover:bg-rose-600 hover:scale-110 hover:shadow-xl transition-all duration-300 ease-in-out">
+                class="mt-2 inline-flex items-center rounded-full bg-rose-500 px-6 py-2.5 text-lg font-semibold text-white shadow-md transform-gpu will-change-transform hover:bg-rose-600 hover:scale-110 hover:shadow-xl transition duration-300 ease-in-out">
                 {{$heroData->button_text}}
             </a>
         </div>
