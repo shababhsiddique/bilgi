@@ -170,7 +170,7 @@ class DatabaseSeeder extends Seeder
             'content_data' => json_encode([
                 'subtitle' => 'New Collection',
                 'title' => 'Kids Toy',
-                'text' => 'Flat <span class="font-semibold text-rose-500">20% Off</span> on magnetic construction toys for your kids.'
+                'text' => 'Apply your <span class="font-semibold text-rose-500">voucher</span> for big savings on magnetic construction toys.'
             ]),
             'product_id' => 1,
             'created_at' => now(),

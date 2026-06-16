@@ -31,7 +31,7 @@ return new class extends Migration
                 'subtitle' => 'New Collection',
                 'title' => 'Kids Toy',
                 'product_id' => 1,
-                'text' => 'Flat <span class="font-semibold text-rose-500">20% Off</span> on magnetic construction toys for your kids.'
+                'text' => 'Apply your <span class="font-semibold text-rose-500">voucher</span> for big savings on magnetic construction toys.'
             ]),
             'created_at' => now(),
             'updated_at' => now(),
