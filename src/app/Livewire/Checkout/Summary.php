@@ -98,6 +98,9 @@ class Summary extends Component
             + $this->tax
             - $this->discountAmount
         );
+
+        // Keep the Payment component (bKash instructions) in sync with the total.
+        $this->dispatch('checkout-total-updated', total: $this->total);
     }
 
     public function render()

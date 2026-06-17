@@ -24,6 +24,8 @@ class Order extends Model
         'payment_method_id',
         'payment_status',
         'payment_note',
+        'payment_trx_id',
+        'payment_sender_number',
         'shipping_address_id',
         'billing_address_id',
         'notes',

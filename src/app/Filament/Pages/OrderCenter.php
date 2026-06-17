@@ -56,14 +56,14 @@ class OrderCenter extends Page implements HasTable
      * Statuses an order can move through.
      */
     public const STATUS_OPTIONS = [
-        'unverified' => 'Unverified',
+        //'unverified' => 'Unverified',
         'pending'    => 'Pending',
         'processing' => 'Processing',
-        'on_hold'    => 'On hold',
+        //'on_hold'    => 'On hold',
         'completed'  => 'Completed',
         'cancelled'  => 'Cancelled',
         'refunded'   => 'Refunded',
-        'failed'     => 'Failed',
+        //'failed'     => 'Failed',
     ];
 
     /**

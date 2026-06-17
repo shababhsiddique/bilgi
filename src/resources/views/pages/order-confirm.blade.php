@@ -94,7 +94,26 @@
                             <p class="font-medium text-gray-900">{{ $order->paymentMethod->name }}</p>
                         </div>
                     @endif
+                    @if($order->payment_trx_id)
+                        <div>
+                            <p class="text-gray-500">Transaction ID</p>
+                            <p class="font-medium text-gray-900">{{ $order->payment_trx_id }}</p>
+                        </div>
+                    @endif
+                    @if($order->payment_sender_number)
+                        <div>
+                            <p class="text-gray-500">Paid from</p>
+                            <p class="font-medium text-gray-900">{{ $order->payment_sender_number }}</p>
+                        </div>
+                    @endif
                 </div>
+
+                @if($order->paymentMethod && in_array($order->paymentMethod->code, config('payment.manual_wallets.codes', []), true))
+                    <p class="mt-4 rounded-md bg-yellow-50 px-3 py-2 text-xs text-yellow-800">
+                        Your {{ $order->paymentMethod->name }} payment is being verified. We'll start
+                        processing your order once the payment is confirmed.
+                    </p>
+                @endif
             </div>
 
             {{-- Order items + totals --}}

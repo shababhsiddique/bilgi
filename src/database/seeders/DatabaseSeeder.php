@@ -122,6 +122,18 @@ class DatabaseSeeder extends Seeder
             'config'      => "merchant_number:017XXXXXXXX ,app_key:XX,app_secret:xx",
         ]);
 
+        // Nagad (same manual personal-transfer flow as bKash)
+        PaymentMethod::factory()->create([
+            'name'        => 'Nagad',
+            'code'        => 'nagad',
+            'type'        => 'mobile_wallet',
+            'description' => 'Pay securely using Nagad mobile wallet.',
+            'icon'        => null,
+            'sort_order'  => 3,
+            'is_active'   => true,
+            'config'      => null,
+        ]);
+
         // Create 2 orders with items, tied to existing customers and their addresses
         $orders = collect();
 
@@ -180,11 +192,11 @@ class DatabaseSeeder extends Seeder
         DB::table('contents')->insert([
             'content_key' => 'hero_data',
             'content_data' => json_encode([
-                'discount' => 'Get Up to <span class="text-base">25% Discount</span>',
-                'subtitle' => 'All New Best Latest',
-                'title' => 'Toy Collection',
+                'discount' => 'Get Up to <span class="text-base">10% Discount</span>',
+                'subtitle' => 'Snap, Build, Create',
+                'title' => 'Magnetic Blocks',
                 'button_text' => 'Shop Now',
-                'text' => 'Discover colorful, safe and joyful toys for your little ones. Perfect for gifts, birthdays and everyday fun.'
+                'text' => 'Magnetic building blocks that snap together. Spark big ideas, bold builds, and hours of hands-on play.'
             ]),
             'product_id' => 2,
             'created_at' => now(),

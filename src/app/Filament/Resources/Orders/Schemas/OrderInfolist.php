@@ -34,6 +34,14 @@ class OrderInfolist
                             ->placeholder('-'),
                         TextEntry::make('payment_status')
                             ->badge(),
+                        TextEntry::make('payment_trx_id')
+                            ->label('Wallet TrxID')
+                            ->placeholder('-')
+                            ->copyable(),
+                        TextEntry::make('payment_sender_number')
+                            ->label('Wallet sender number')
+                            ->placeholder('-')
+                            ->copyable(),
                         TextEntry::make('payment_note')
                             ->placeholder('-')
                             ->columnSpanFull(),

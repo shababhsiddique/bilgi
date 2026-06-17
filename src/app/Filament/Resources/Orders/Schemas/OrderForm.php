@@ -67,6 +67,14 @@ class OrderForm
                 ])
                     ->default('unpaid')
                     ->required(),
+                TextInput::make('payment_trx_id')
+                    ->label('Wallet TrxID')
+                    ->helperText('Transaction ID submitted by the customer for a bKash / Nagad transfer.')
+                    ->maxLength(50),
+                TextInput::make('payment_sender_number')
+                    ->label('Wallet sender number')
+                    ->helperText('The mobile-wallet number the customer paid from.')
+                    ->maxLength(20),
                 Textarea::make('payment_note')
                     ->columnSpanFull(),
 

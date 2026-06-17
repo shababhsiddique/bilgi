@@ -44,6 +44,10 @@ class Checkout extends Controller
             // Payment Information
             'payment_method_id' => 'required',
 
+            // bKash manual transfer (validated conditionally below)
+            'payment_trx_id' => 'nullable|string|max:50',
+            'payment_sender_number' => 'nullable|string|max:20',
+
             // Additional fields
             'discount_code' => 'nullable|string|max:20',
             'notes' => 'nullable|string|max:1000',
@@ -97,6 +101,21 @@ class Checkout extends Controller
 
         // Validate the form input
         $validator = Validator::make($request->all(), $rules, $messages);
+
+        // Manual mobile-wallet transfers (bKash, Nagad, ...) require the TrxID
+        // and the sender number.
+        $validator->after(function ($validator) use ($request) {
+            $method = PaymentMethod::find($request->payment_method_id);
+
+            if ($method && $this->isManualWallet($method)) {
+                if (blank($request->payment_trx_id)) {
+                    $validator->errors()->add('payment_trx_id', "Please enter the {$method->name} Transaction ID (TrxID).");
+                }
+                if (blank($request->payment_sender_number)) {
+                    $validator->errors()->add('payment_sender_number', "Please enter the {$method->name} number you sent from.");
+                }
+            }
+        });
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -178,6 +197,7 @@ class Checkout extends Controller
             // 1. Guest user placing COD order, OR
             // 2. Registered user with unverified phone placing COD order
             $isCashOnDelivery = $paymentMethod->code == 'cod';
+            $isManualWallet = $this->isManualWallet($paymentMethod);
             $requireOTP = false;
 
             if ($isCashOnDelivery) {
@@ -203,6 +223,9 @@ class Checkout extends Controller
                 'billing_address_id' => $orderAddressId,
                 'payment_method_id' => $request->payment_method_id,
                 'payment_status' => 'pending',
+                // Manual wallet transfer details (verified manually later).
+                'payment_trx_id' => $isManualWallet ? $request->payment_trx_id : null,
+                'payment_sender_number' => $isManualWallet ? $request->payment_sender_number : null,
                 'notes' => $request->notes,
                 'placed_at' => now(),
             ]);
@@ -255,6 +278,12 @@ class Checkout extends Controller
                     ->with('success', 'Your order has been placed successfully!');
             }
 
+            // Manual wallet transfer: order is placed, payment awaits manual verification.
+            if ($isManualWallet) {
+                return redirect()->route('order.confirm', $order->id)
+                    ->with('success', "Your order has been placed! We will verify your {$paymentMethod->name} payment shortly.");
+            }
+
             // For non-COD payment methods, redirect to payment page
             return redirect()->route('order.pay', $order->id)
                 ->with('success', 'Please complete your payment to confirm your order.');
@@ -267,6 +296,15 @@ class Checkout extends Controller
                 ->withErrors(['order' => 'Failed to place order. Please try again.'])
                 ->withInput();
         }
+    }
+
+    /**
+     * Whether a payment method is a manual mobile-wallet transfer
+     * (bKash, Nagad, ...) handled via personal "Send Money".
+     */
+    private function isManualWallet(PaymentMethod $method): bool
+    {
+        return in_array($method->code, config('payment.manual_wallets.codes', []), true);
     }
 
     private function generateOrderNumber(): string
