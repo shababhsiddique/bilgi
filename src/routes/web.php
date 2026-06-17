@@ -27,8 +27,9 @@ Route::get('/order/confirm/{id}', function ($id) {
         ->findOrFail($id);
 
     // If a customer is logged in, the order must belong to them.
+    // Cast both sides: the DB driver may return the id as a string.
     $customer = Auth::guard('customers')->user();
-    if ($customer && $order->customer_id !== $customer->id) {
+    if ($customer && (int) $order->customer_id !== (int) $customer->id) {
         abort(403, 'You do not have permission to view this order.');
     }
 
@@ -40,8 +41,9 @@ Route::get('/order/invoice/{id}', function ($id) {
     $order = Order::with(['items', 'shippingAddress', 'billingAddress', 'paymentMethod'])
         ->findOrFail($id);
 
+    // Cast both sides: the DB driver may return the id as a string.
     $customer = Auth::guard('customers')->user();
-    if ($customer && $order->customer_id !== $customer->id) {
+    if ($customer && (int) $order->customer_id !== (int) $customer->id) {
         abort(403, 'You do not have permission to view this order.');
     }
 

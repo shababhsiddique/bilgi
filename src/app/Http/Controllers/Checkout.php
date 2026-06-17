@@ -337,6 +337,7 @@ class Checkout extends Controller
 
         $message = "Your {$appName} verification code is {$otp}. It expires in {$expiryMinutes} minute(s).";
 
+        Log::info("Sending OTP SMS to {$phone}: {$message}");
         $sent = app(SmsService::class)->send($phone, $message);
 
         if (! $sent) {
@@ -374,7 +375,7 @@ class Checkout extends Controller
 
         // Verify order belongs to customer (if authenticated)
         $customer = Auth::guard('customers')->user();
-        if ($customer && $order->customer_id !== $customer->id) {
+        if ($customer && (int) $order->customer_id !== (int) $customer->id) {
             abort(403, 'You do not have permission to access this order.');
         }
 
@@ -399,7 +400,7 @@ class Checkout extends Controller
 
         // Verify order belongs to customer (if authenticated)
         $customer = Auth::guard('customers')->user();
-        if ($customer && $order->customer_id !== $customer->id) {
+        if ($customer && (int) $order->customer_id !== (int) $customer->id) {
             abort(403, 'You do not have permission to access this order.');
         }
 

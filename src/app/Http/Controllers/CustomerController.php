@@ -75,14 +75,13 @@ class CustomerController extends Controller
             abort(403, 'Unauthorized');
         }
 
+        // Scope by customer in the query (same as the orders list) so a type
+        // mismatch between $order->customer_id and $customer->id can never
+        // cause a false 403 on the customer's own order.
         $order = Order::where('order_number', $order_number)
+            ->where('customer_id', $customer->id)
             ->with(['items', 'shippingAddress', 'billingAddress', 'paymentMethod'])
             ->firstOrFail();
-
-        // Check if the order belongs to the authenticated customer
-        if ($order->customer_id !== $customer->id) {
-            abort(403, 'You do not have permission to view this order.');
-        }
 
         return view('pages.order-view', [
             'order' => $order,
