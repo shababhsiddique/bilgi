@@ -120,6 +120,17 @@ class OrderCenter extends Page implements HasTable
             ->description('Find by phone, or create a new customer')
             ->icon('heroicon-o-user')
             ->schema([
+                Select::make('channel')
+                    ->label('Channel')
+                    ->options([
+                        'website'  => 'Website',
+                        'facebook' => 'Facebook',
+                        'whatsapp' => 'Whatsapp',
+                        'daraz'    => 'Daraz',
+                    ])
+                    ->default('website')
+                    ->selectablePlaceholder(false)
+                    ->required(),
                 Select::make('customer_id')
                     ->label('Customer')
                     ->placeholder('Search by phone or name…')
@@ -418,6 +429,7 @@ class OrderCenter extends Page implements HasTable
             $order = Order::create([
                 'customer_id'         => $customer->id,
                 'order_number'        => $this->generateOrderNumber(),
+                'channel'             => $data['channel'] ?? 'website',
                 'status'              => $data['status'] ?? 'pending',
                 'subtotal'            => $subtotal,
                 'discount_amount'     => $discount,
@@ -530,6 +542,13 @@ class OrderCenter extends Page implements HasTable
                     ->weight('bold')
                     ->url(fn (Order $record) => OrderResource::getUrl('view', ['record' => $record]))
                     ->color('primary'),
+                TextColumn::make('channel')
+                    ->label('Ch')
+                    ->badge()
+                    ->grow(false)
+                    ->alignCenter()
+                    ->formatStateUsing(fn (?string $state): string => $state ? strtoupper(mb_substr($state, 0, 1)) : '-')
+                    ->tooltip(fn (?string $state): ?string => $state),
                 TextColumn::make('shippingAddress.name')
                     ->label('Customer')
                     ->placeholder('-')
