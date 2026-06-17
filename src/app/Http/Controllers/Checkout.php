@@ -192,20 +192,20 @@ class Checkout extends Controller
             $deliveryFee =  $shippingCosts[$orderAddress->state];
             $totalAmount = $subtotal + $deliveryFee - $discountAmount;
 
-            // Determine if OTP is required for COD orders
-            // OTP is required if:
-            // 1. Guest user placing COD order, OR
-            // 2. Registered user with unverified phone placing COD order
+            // Determine if OTP (phone verification) is required.
+            // OTP is required for COD and manual-wallet (bKash, Nagad) orders when:
+            // 1. Placed by a guest, OR
+            // 2. Placed by a registered user whose phone isn't verified yet.
             $isCashOnDelivery = $paymentMethod->code == 'cod';
             $isManualWallet = $this->isManualWallet($paymentMethod);
             $requireOTP = false;
 
-            if ($isCashOnDelivery) {
+            if ($isCashOnDelivery || $isManualWallet) {
                 if ($isGuestUser) {
-                    // Guest user placing COD order
+                    // Guest user
                     $requireOTP = true;
                 } elseif ($customer && $customer->phone_verified_at === null) {
-                    // Registered user with unverified phone placing COD order
+                    // Registered user with unverified phone
                     $requireOTP = true;
                 }
             }
@@ -350,8 +350,9 @@ class Checkout extends Controller
      */
     private function getPostOrderRedirectRoute(PaymentMethod $paymentMethod, int $orderId): array
     {
-        // If Cash on Delivery, redirect to confirm page
-        if ($paymentMethod->code === 'cod') {
+        // COD and manual-wallet (bKash, Nagad) orders go straight to the
+        // confirm page; payment is collected on delivery or verified manually.
+        if ($paymentMethod->code === 'cod' || $this->isManualWallet($paymentMethod)) {
             return [
                 'route' => 'order.confirm',
                 'params' => ['id' => $orderId]
