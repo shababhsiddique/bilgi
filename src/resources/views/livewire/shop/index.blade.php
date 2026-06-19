@@ -21,13 +21,16 @@
                 <div class="-mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 text-sm text-slate-500 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-4 sm:overflow-visible sm:px-0">
                     <!-- Dynamic category pills -->
                     @foreach($categories as $category)
-                        <div
-                            wire:click="selectCategory({{ $category->id }})"
+                        {{-- Real link so crawlers + modifier/middle clicks reach the category landing page;
+                             a plain left-click is intercepted to filter in-place via Livewire (snappier, no reload). --}}
+                        <a
+                            href="{{ route('category.show', $category->slug) }}"
+                            @click="if (!$event.metaKey && !$event.ctrlKey && !$event.shiftKey && !$event.altKey && $event.button === 0) { $event.preventDefault(); $wire.selectCategory({{ $category->id }}) }"
                             class="shrink-0 cursor-pointer whitespace-nowrap rounded-full border px-5 py-2 transition-colors hover:border-slate-300 sm:px-6
                             {{ $selectedCategory == $category->id ? 'border-slate-300 bg-slate-50 text-slate-700' : 'bg-white border-slate-200' }}"
                         >
                             {{ $category->name }}
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>

@@ -40,13 +40,14 @@
         ['label' => 'Products'],
     ]"/>
 
-    <div class="mx-auto max-w-6xl px-4 pt-2">
-        <h1 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">STEAM &amp; STEM Toys for Kids</h1>
-        <p class="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
-            Discover Bilgi's collection of educational toys in Bangladesh — building blocks, science kits,
-            robotics and hands-on learning toys that make kids love to explore. Fast delivery across Dhaka
-            and all of Bangladesh.
-        </p>
+    <div class="bg-sky-50/70">
+        <div class="mx-auto max-w-6xl px-4 pt-4 pb-1">
+            <h1 class="text-xl font-bold text-slate-900 sm:text-2xl">STEAM &amp; STEM Toys for Kids</h1>
+            <p class="mt-1.5 max-w-2xl text-xs leading-relaxed text-slate-500 sm:text-sm">
+                Educational toys for curious minds in Bangladesh — building blocks, science kits, robotics
+                and hands-on learning toys, with fast delivery across Dhaka and beyond.
+            </p>
+        </div>
     </div>
 
     @livewire('shop.index')
