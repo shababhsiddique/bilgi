@@ -22,10 +22,18 @@ class Index extends Component
         'load-more' => 'loadMore',
     ];
 
-    public function mount()
+    public function mount(?string $categorySlug = null)
     {
         // Initialize search query from URL parameter
         $this->searchQuery = request()->query('search', '');
+
+        // When rendered from a category landing page, pre-select that category
+        // so the grid is scoped to it.
+        if ($categorySlug) {
+            $this->selectedCategory = Category::where('slug', $categorySlug)
+                ->where('visible', true)
+                ->value('id');
+        }
     }
 
     public function loadMore()

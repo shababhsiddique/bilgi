@@ -76,6 +76,12 @@ class ProductInfolist
                     ->placeholder('-'),
                 TextEntry::make('meta_keywords')
                     ->placeholder('-'),
+                ImageEntry::make('og_image')
+                    ->label('Social Share Image')
+                    ->visible(fn (Product $record): bool => filled($record->og_image))
+                    ->disk('public')
+                    ->height(120)
+                    ->columnSpanFull(),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Product $record): bool => $record->trashed()),

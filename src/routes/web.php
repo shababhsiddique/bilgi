@@ -1,16 +1,50 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Checkout;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SitemapController;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.home');
 })->name('home');
+
+/*
+| SEO — robots.txt is served dynamically so the pre-launch gate
+| (config/seo.php → SEO_INDEXABLE) is the single source of truth.
+*/
+Route::get('/robots.txt', function () {
+    if (config('seo.indexable')) {
+        $lines = [
+            'User-agent: *',
+            'Allow: /',
+            'Disallow: /cart',
+            'Disallow: /account',
+            'Disallow: /order/',
+            'Disallow: /login',
+            'Disallow: /login-pass',
+            'Disallow: /register',
+            '',
+            'Sitemap: ' . config('seo.production_url') . '/sitemap.xml',
+        ];
+    } else {
+        // Pre-launch: keep the whole site out of search engines.
+        $lines = ['User-agent: *', 'Disallow: /'];
+    }
+
+    return Response::make(implode("\n", $lines) . "\n", 200, [
+        'Content-Type' => 'text/plain',
+    ]);
+})->name('robots');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/shop', function () {
     return view('pages.all-products');
@@ -83,11 +117,14 @@ Route::get('/product/{slug}', function ($slug) {
 
     return view('pages.single-product', [
         'slug'    => $slug . '',
+        'product' => $product,
         'related' => $related,
     ]);
 })->name('product.show');
 
 
+// Category landing page — indexable SEO surface that reuses the shop grid.
+Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.show');
 
 
 Route::get('/story', function () {

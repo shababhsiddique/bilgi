@@ -8,14 +8,34 @@ launched site will stay invisible to Google.
 [ ] 1. Disable maintenance mode (run inside the running container):
        docker compose exec <service> php artisan up
 
-[ ] 2. Re-allow crawlers — src/public/robots.txt
-       Change:
-           Disallow: /
-       Back to (empty = allow all):
-           Disallow:
+[ ] 2. Make the site indexable — src/.env
+       Search visibility is controlled by a single switch. Set:
+           SEO_INDEXABLE=true
+       This flips robots.txt (route-driven) to allow crawling, removes the
+       noindex meta on all public pages, and expands /sitemap.xml to list
+       every visible product and category. (Old static src/public/robots.txt
+       and the hardcoded <meta robots> line no longer exist — do not look
+       for them.)
 
-[ ] 3. Remove the noindex meta tag — src/resources/views/layouts/app.blade.php
-       Delete this line from <head>:
-           <meta name="robots" content="noindex, nofollow">
+[ ] 3. Point SEO at the live domain — src/.env
+       Set these so sitemap.xml / robots.txt emit absolute https URLs:
+           APP_URL=https://withbilgi.com
+           SEO_PRODUCTION_URL=https://withbilgi.com
 
-Added: 2026-06-13
+[ ] 4. Apply the env changes (run inside the running container):
+       docker compose exec <service> php artisan config:clear
+       (If config is cached in prod: php artisan config:cache)
+
+[ ] 5. (Optional) Enrich structured data — src/.env
+           SEO_CONTACT_PHONE=<public BD support number>
+       Social profile links come from SOCIAL_* (config/social.php) and are
+       already shared between the footer and SEO — no separate SEO entry.
+
+[ ] 6. Verify after launch:
+       - https://withbilgi.com/robots.txt  -> "Allow: /" + Sitemap line
+       - https://withbilgi.com/sitemap.xml -> lists products + categories
+       - View-source a product page        -> <meta robots> = "index, follow"
+       - Submit the sitemap in Google Search Console.
+
+Added:   2026-06-13
+Updated: 2026-06-19 — search gate is now the SEO_INDEXABLE env switch.

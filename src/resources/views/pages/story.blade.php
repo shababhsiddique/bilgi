@@ -1,6 +1,36 @@
 {{-- resources/views/pages/story.blade.php --}}
 @extends('layouts.app')
 
+@section('title', 'Our Story — Why We Built Bilgi STEAM Toys | Bangladesh')
+@section('meta_description', 'Why we started WithBilgi: to get kids in Bangladesh off their phones and back into creative, hands-on STEAM & STEM play. Learn about our mission and the educational toys we deliver across Bangladesh.')
+@section('meta_keywords', 'about Bilgi, WithBilgi story, STEAM toys Bangladesh, educational toys mission, screen-free play Bangladesh')
+@section('robots', config('seo.indexable') ? 'index, follow' : 'noindex, nofollow')
+@section('canonical', route('story'))
+
+@php
+    $aboutJsonLd = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'AboutPage',
+        'name'        => 'Our Story — Bilgi STEAM Toys',
+        'url'         => route('story'),
+        'inLanguage'  => 'en',
+        'description' => 'The story behind WithBilgi — helping kids in Bangladesh learn through hands-on STEAM & STEM play.',
+        'about'       => [
+            '@type'      => 'Organization',
+            'name'       => 'Bilgi STEAM Toys',
+            'url'        => route('home'),
+            'logo'       => asset('images/bilgi.png'),
+            'areaServed' => ['@type' => 'Country', 'name' => 'Bangladesh'],
+        ],
+    ];
+@endphp
+
+@push('head')
+    <script type="application/ld+json">
+        {!! json_encode($aboutJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endpush
+
 @section('content')
     <x-breadcrumb :items="[
         ['label' => 'Home', 'url' => route('home')],

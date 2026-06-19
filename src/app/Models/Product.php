@@ -46,6 +46,7 @@ class Product extends Model
         'meta_title',
         'meta_description',
         'meta_keywords',
+        'og_image',
     ];
 
     /**
@@ -186,6 +187,23 @@ class Product extends Model
 
         // Otherwise, query for the highest price variant
         return $this->variants()->orderBy('sales_price', 'desc')->first();
+    }
+
+    /**
+     * Absolute URL of the social-share image used for Open Graph / Twitter.
+     * Prefers the dedicated og_image, then the thumbnail, then the site logo.
+     */
+    public function getOgImageUrlAttribute(): string
+    {
+        if (! empty($this->og_image)) {
+            return asset('storage/' . $this->og_image);
+        }
+
+        if (! empty($this->thumbnail)) {
+            return asset('storage/' . $this->thumbnail);
+        }
+
+        return asset('images/bilgi.png');
     }
 
     public function getRibbonClassesAttribute(): array

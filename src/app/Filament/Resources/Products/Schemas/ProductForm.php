@@ -196,9 +196,28 @@ class ProductForm
                                     ]),
                                 Tab::make('SEO')
                                     ->schema([
-                                        TextInput::make('meta_title'),
-                                        TextInput::make('meta_description'),
-                                        TextInput::make('meta_keywords'),
+                                        TextInput::make('meta_title')
+                                            ->label('Meta Title')
+                                            ->maxLength(60)
+                                            ->helperText('Shown as the search result title. Keep ≤ 60 characters. Falls back to the product name.'),
+                                        Textarea::make('meta_description')
+                                            ->label('Meta Description')
+                                            ->rows(3)
+                                            ->maxLength(160)
+                                            ->helperText('Shown under the title in search results. Keep ≤ 160 characters. Falls back to the product description.')
+                                            ->columnSpanFull(),
+                                        TextInput::make('meta_keywords')
+                                            ->label('Meta Keywords')
+                                            ->helperText('Comma-separated keywords, e.g. "STEAM toys, science kit, Bangladesh".')
+                                            ->columnSpanFull(),
+                                        FileUpload::make('og_image')
+                                            ->label('Social Share Image')
+                                            ->disk('public')
+                                            ->image()
+                                            ->imagePreviewHeight('150')
+                                            ->visibility('public')
+                                            ->helperText('Image used when shared on Facebook / WhatsApp / Twitter. Ideal size 1200×630. Falls back to the thumbnail.')
+                                            ->columnSpanFull(),
                                     ]),
                                 Tab::make('Tax')
                                     ->schema([
