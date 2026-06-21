@@ -47,7 +47,7 @@
         <!-- Logo -->
         <div class="flex items-center gap-2">
             <a href="{{route('home')}}">
-                <img src="{{asset('images/bilgi-white-65-109.png')}}" alt="Logo" class="w-auto"/>
+                <img src="{{asset('images/bilgi-white-v2-65-109.png')}}" alt="Logo" class="w-auto"/>
             </a>
         </div>
 
