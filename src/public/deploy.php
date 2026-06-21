@@ -1,5 +1,6 @@
 <?php
 echo "test hello cron update";
+exit;
 //test a fake change
 /*
 |--------------------------------------------------------------------------
