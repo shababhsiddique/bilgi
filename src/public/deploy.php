@@ -79,3 +79,11 @@ echo "----------------------------------------\n";
 echo implode("\n", $output) . "\n";
 echo "----------------------------------------\n";
 echo $exitCode === 0 ? "Deploy successful.\n" : "Deploy failed (exit {$exitCode}).\n";
+
+
+function veryBigFakeChangeFunction(){
+    echo "this";
+    echo "that";
+    echo "the other thing";
+    return '';
+}
