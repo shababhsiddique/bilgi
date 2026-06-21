@@ -26,7 +26,7 @@
         }
         .btn {
             display: inline-block;
-            background: #e11b22;
+            background: #ff2056;
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -39,14 +39,14 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border-bottom: 3px solid #e11b22;
+            border-bottom: 3px solid #ff2056;
             padding-bottom: 16px;
             margin-bottom: 24px;
         }
         .brand-block { display: flex; align-items: center; gap: 14px; }
         .brand-logo { width: 64px; height: 64px; object-fit: contain; }
         .brand { font-size: 22px; font-weight: 700; color: #111827; }
-        .doc-title { font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #e11b22; }
+        .doc-title { font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #ff2056; }
         .meta { text-align: right; color: #4b5563; }
         .meta strong { color: #111827; }
         .columns { display: flex; gap: 32px; margin-bottom: 28px; }
@@ -73,15 +73,15 @@
         .totals { margin-top: 16px; margin-left: auto; width: 280px; }
         .totals td { padding: 6px 8px; }
         .totals .grand td {
-            border-top: 2px solid #e11b22;
-            color: #e11b22;
+            border-top: 2px solid #ff2056;
+            color: #ff2056;
             font-size: 16px;
             font-weight: 700;
             padding-top: 10px;
         }
         .footer { margin-top: 40px; text-align: center; color: #9ca3af; font-size: 12px; }
         .footer-links { margin-top: 8px; }
-        .footer-links a { color: #e11b22; text-decoration: none; font-weight: 600; }
+        .footer-links a { color: #ff2056; text-decoration: none; font-weight: 600; }
         @media print {
             body { padding: 0; }
             .toolbar { display: none; }

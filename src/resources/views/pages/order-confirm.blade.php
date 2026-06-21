@@ -32,7 +32,7 @@
 
                 <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
                     <a href="{{ route('order.invoice', $order->id) }}" target="_blank" rel="noopener"
-                       class="inline-flex items-center justify-center px-5 py-2.5 rounded-md text-sm font-medium text-white bg-[#e11b22] hover:bg-[#c4161c] transition-colors">
+                       class="inline-flex items-center justify-center px-5 py-2.5 rounded-md text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 transition-colors">
                         <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6v-8z"/>
                         </svg>

@@ -22,7 +22,7 @@ window.notyf = new Notyf({
         },
         {
             type: 'error',
-            background: '#ee3f38', // Your custom brandRed color
+            background: '#f54a00', // orange — error (kept distinct from brand rose & amber warning)
         },
         {
             type: 'info',

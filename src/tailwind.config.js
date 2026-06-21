@@ -7,11 +7,7 @@ export default {
         './resources/**/*.php',
     ],
     theme: {
-        extend: {
-            colors: {
-                brandRed: '#ee3f38ff',
-            },
-        },
+        extend: {},
     },
     plugins: [],
 };
