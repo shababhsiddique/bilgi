@@ -1,4 +1,5 @@
 <?php
+echo "test hello cron update";
 //test a fake change
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,9 @@ echo $exitCode === 0 ? "Deploy successful.\n" : "Deploy failed (exit {$exitCode}
 function veryBigFakeChangeFunction(){
     echo "this";
     echo "that";
+    echo 'too big';
+    echo "another thing";
+    echo 'i am telling you this is important';
     echo "the other thing";
     return '';
 }
