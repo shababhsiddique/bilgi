@@ -1,7 +1,7 @@
 <!-- TOP BAR -->
 <div class="w-full bg-sky-50 text-sm text-slate-600">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-2">
-        <p>Use code <span class="font-semibold text-red-500">LEARN&FUN2026</span> and get 10% off!</p>
+        <p>Use code <span class="font-semibold text-rose-500">LEARN&FUN2026</span> and get 10% off!</p>
         <div class="flex items-center gap-4">
             @guest
                 {{-- Guest: show Login only --}}
@@ -102,7 +102,7 @@
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4">
             <div class="flex gap-6 py-3 sm:gap-12">
                 <a href="{{route('home')}}"
-                   class="{{ request()->routeIs('home') ? 'text-red-500' : 'hover:text-red-500' }}">
+                   class="{{ request()->routeIs('home') ? 'text-rose-500' : 'hover:text-rose-500' }}">
                     Home
                 </a>
                 <a href="{{route('shop')}}"
