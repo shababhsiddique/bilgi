@@ -40,15 +40,11 @@
         ['label' => 'Products'],
     ]"/>
 
-    <div class="bg-sky-50/70">
-        <div class="mx-auto max-w-6xl px-4 pt-4 pb-1">
-            <h1 class="text-xl font-bold text-slate-900 sm:text-2xl">STEAM &amp; STEM Toys for Kids</h1>
-            <p class="mt-1.5 max-w-2xl text-xs leading-relaxed text-slate-500 sm:text-sm">
-                Educational toys for curious minds in Bangladesh — building blocks, science kits, robotics
-                and hands-on learning toys, with fast delivery across Dhaka and beyond.
-            </p>
-        </div>
-    </div>
+    <x-shop-hero
+        eyebrow="Shop All"
+        title="STEAM & STEM Toys for Kids"
+        description="Educational toys for curious minds — fast delivery across Bangladesh."
+    />
 
     @livewire('shop.index')
 @endsection

@@ -59,18 +59,11 @@
         ['label' => $category->name]
     ]"/>
 
-    <section class="bg-sky-50/70">
-        <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:py-12">
-            <h1 class="text-2xl font-bold text-slate-800 sm:text-3xl">{{ $category->name }}</h1>
-            @if($category->description)
-                <p class="mx-auto mt-3 max-w-2xl text-slate-500">{{ $category->description }}</p>
-            @else
-                <p class="mx-auto mt-3 max-w-2xl text-slate-500">
-                    Educational {{ $category->name }} toys for kids — delivered across Bangladesh.
-                </p>
-            @endif
-        </div>
-    </section>
+    <x-shop-hero
+        eyebrow="STEAM & STEM"
+        :title="$category->name"
+        :description="$category->description ?: 'Educational ' . $category->name . ' toys for kids — delivered across Bangladesh.'"
+    />
 
     @livewire('shop.index', ['categorySlug' => $category->slug])
 @endsection
